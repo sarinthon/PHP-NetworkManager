@@ -11,8 +11,16 @@ enum NetworkMethod: string {
 
 class NetworkManager
 {
-    public static function request($url, $body, $headers=null, NetworkMethod $method=NetworkMethod::POST): ?object {
-        $client = new Client();
+    public static function request(
+        $url,
+        $body,
+        $headers=null,
+        NetworkMethod $method=NetworkMethod::POST,
+        $httpError=false
+    ): ?object {
+        $client = new Client([
+            'http_errors'=> $httpError
+        ]);
         $response = $client->request($method->value, $url, [
             'body'=> $body,
             'headers' => $headers ?? [
